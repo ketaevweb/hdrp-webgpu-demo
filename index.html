@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <script type="module" crossorigin src="/hdrp-webgpu-demo/assets/index-BoOkOrct.js"></script>
+  <script type="module" crossorigin src="/hdrp-webgpu-demo/assets/index-CsUBYcge.js"></script>
   <link rel="stylesheet" crossorigin href="/hdrp-webgpu-demo/assets/index-CHlkYqZb.css">
 </head>
 <body>
@@ -18,7 +18,7 @@
   <!-- Loading / fallback overlay -->
   <div id="boot" class="boot">
     <div class="boot-card">
-      <div class="boot-kicker">HDRP → WEBGPU · VERTICAL SLICE M0–M2</div>
+      <div class="boot-kicker">HDRP → WEBGPU · VERTICAL SLICE M0–M3</div>
       <div class="boot-title">Deferred Renderer Demo</div>
       <div id="boot-status" class="boot-status">Инициализация WebGPU…</div>
       <div class="boot-bar"><div id="boot-bar-fill" class="boot-bar-fill"></div></div>
@@ -31,7 +31,7 @@
     <div class="hud-top-left">
       <div class="hud-logo">HDRP <span class="arr">→</span> WebGPU</div>
       <div id="hud-adapter" class="hud-adapter">—</div>
-      <div id="hud-pipeline" class="hud-pipeline">deferred · FPTL 16×16 · CSM ×4 · ACES</div>
+      <div id="hud-pipeline" class="hud-pipeline">deferred · FPTL · CSM ×4 · SSR · SH-GI · ACES+LUT</div>
     </div>
 
     <div class="hud-bottom-left">
@@ -61,6 +61,9 @@
       <div class="panel-title">ПОДСИСТЕМЫ</div>
       <label class="check"><input type="checkbox" id="tg-ssao" checked /> SSAO</label>
       <label class="check"><input type="checkbox" id="tg-taa" checked /> TAA</label>
+      <label class="check"><input type="checkbox" id="tg-ssr" checked /> SSR · отражения</label>
+      <label class="check"><input type="checkbox" id="tg-gi" checked /> Пробы GI (SH)</label>
+      <label class="check"><input type="checkbox" id="tg-lut" checked /> Color grading LUT</label>
       <label class="check"><input type="checkbox" id="tg-bloom" checked /> Bloom</label>
       <label class="check"><input type="checkbox" id="tg-ocean" checked /> Океан</label>
       <label class="check"><input type="checkbox" id="tg-fog" checked /> Воздушная перспектива</label>
