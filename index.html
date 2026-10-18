@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HDRP → WebGPU · Deferred Renderer Demo</title>
+  <meta name="description" content="Демонстрация рендерера уровня Unity HDRP на чистом WebGPU: deferred G-buffer, FPTL, CSM, океан, TAA, ACES." />
+  <link rel="icon" type="image/svg+xml" href="/hdrp-webgpu-demo/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="/hdrp-webgpu-demo/assets/index-BoOkOrct.js"></script>
+  <link rel="stylesheet" crossorigin href="/hdrp-webgpu-demo/assets/index-CHlkYqZb.css">
+</head>
+<body>
+  <canvas id="gpu"></canvas>
+
+  <!-- Loading / fallback overlay -->
+  <div id="boot" class="boot">
+    <div class="boot-card">
+      <div class="boot-kicker">HDRP → WEBGPU · VERTICAL SLICE M0–M2</div>
+      <div class="boot-title">Deferred Renderer Demo</div>
+      <div id="boot-status" class="boot-status">Инициализация WebGPU…</div>
+      <div class="boot-bar"><div id="boot-bar-fill" class="boot-bar-fill"></div></div>
+      <div id="boot-detail" class="boot-detail"></div>
+    </div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud" class="hud hidden">
+    <div class="hud-top-left">
+      <div class="hud-logo">HDRP <span class="arr">→</span> WebGPU</div>
+      <div id="hud-adapter" class="hud-adapter">—</div>
+      <div id="hud-pipeline" class="hud-pipeline">deferred · FPTL 16×16 · CSM ×4 · ACES</div>
+    </div>
+
+    <div class="hud-bottom-left">
+      <canvas id="fps-graph" width="220" height="44"></canvas>
+      <div id="hud-fps" class="hud-fps">— fps · — ms</div>
+      <div id="hud-tier" class="hud-tier">—</div>
+    </div>
+
+    <div class="hud-panel hud-right" id="hud-panel">
+      <div class="panel-title">УРОВЕНЬ КАЧЕСТВА</div>
+      <div class="seg" id="tier-seg">
+        <button data-tier="0" title="Без SSAO/TAA, тени 1024, океан 96²">Performant</button>
+        <button data-tier="1" title="SSAO, тени 2048, океан 160²">Balanced</button>
+        <button data-tier="2" title="SSAO+TAA, тени 4096, океан 224²">High</button>
+      </div>
+
+      <div class="panel-title">ОСВЕЩЕНИЕ</div>
+      <label class="row">Высота солнца <span id="val-sun-el" class="val">28°</span></label>
+      <input type="range" id="sun-el" min="4" max="62" step="1" value="28" />
+      <label class="row">Азимут солнца <span id="val-sun-az" class="val">245°</span></label>
+      <input type="range" id="sun-az" min="180" max="320" step="1" value="245" />
+      <label class="row">EV (компенсация) <span id="val-ev" class="val">0.0</span></label>
+      <input type="range" id="ev-bias" min="-2.5" max="2.5" step="0.1" value="0" />
+      <label class="row">Туман <span id="val-fog" class="val">0.9</span></label>
+      <input type="range" id="fog-dens" min="0" max="2" step="0.05" value="0.9" />
+
+      <div class="panel-title">ПОДСИСТЕМЫ</div>
+      <label class="check"><input type="checkbox" id="tg-ssao" checked /> SSAO</label>
+      <label class="check"><input type="checkbox" id="tg-taa" checked /> TAA</label>
+      <label class="check"><input type="checkbox" id="tg-bloom" checked /> Bloom</label>
+      <label class="check"><input type="checkbox" id="tg-ocean" checked /> Океан</label>
+      <label class="check"><input type="checkbox" id="tg-fog" checked /> Воздушная перспектива</label>
+      <label class="check"><input type="checkbox" id="tg-wire" /> Debug · G-buffer</label>
+
+      <div class="panel-title">ТОЧКИ СЪЁМКИ</div>
+      <div class="shots" id="shots"></div>
+
+      <div class="panel-note">
+        ЛКМ — орбита · колесо — зум<br />
+        <b>Free flight</b>: клик по канвасу, WASD + QE, Shift — быстрее, Esc — выход
+      </div>
+      <button id="btn-fly" class="fly-btn">Свободный полёт</button>
+    </div>
+
+    <button id="hud-toggle" class="hud-toggle" title="Показать/скрыть панель">☰</button>
+  </div>
+
+</body>
+</html>
